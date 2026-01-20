@@ -1,1 +1,2 @@
-# SSE 662 Project 2
+# Complex Number Calculator in FORTRAN
+
