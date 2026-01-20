@@ -13,4 +13,16 @@ This document describes the design of the Calculator Interface, which allows the
 
     Main method to control the command-line interface
 
-***function 
+## Private Methods
+***function _TakeInput() result (input)***
+
+    Method to read the command-line input from the user
+        - Should also be able to interpret the other input syntaxes
+
+***function _GiveOutput(output)***
+    
+    Method to output to the command line
+
+***function _Validate(input) result(isValid)***
+
+    Validates an input 

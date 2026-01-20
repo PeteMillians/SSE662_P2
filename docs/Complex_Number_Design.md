@@ -60,7 +60,7 @@ This document describes the design of the Complex Number type, which is a custom
     Returns:
         the quotient of a/b
     
-***function exponent(a, n) result (c)***
+***function power(a, n) result (c)***
 
     Finds a raised to the nth power
 
