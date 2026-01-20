@@ -1,17 +1,20 @@
-# Compiler
+# Fortran compiler
 FC = gfortran
 
-# Flags
+# Compiler flags
 FFLAGS = -Wall -O2
 
-# Output executable
-TARGET = program.exe
+# Source directory
+SRC = src
 
 # Source files
-SRCS = main.f90 complex_number.f90 interface.f90
+SRCS = $(SRC)/complex_number.f90 $(SRC)/main.f90 $(SRC)/command_line.f90
 
-# Object files (replace .f90 with .o)
+# Object files
 OBJS = $(SRCS:.f90=.o)
+
+# Output executable
+TARGET = main
 
 # Default rule
 all: $(TARGET)
@@ -20,9 +23,9 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(FC) $(FFLAGS) -o $@ $^
 
-# Compile each .f90 file into .o
+# Compile .f90 → .o
 %.o: %.f90
-	$(FC) $(FFLAGS) -c $<
+	$(FC) $(FFLAGS) -c $< -o $@
 
 # Clean rule
 clean:
