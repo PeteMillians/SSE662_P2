@@ -8,7 +8,7 @@ FFLAGS = -Wall -O2
 SRC = src
 
 # Source files
-SRCS = $(SRC)/complex_number.f90 $(SRC)/main.f90 $(SRC)/command_line.f90
+SRCS = $(SRC)/complex_number.f90 $(SRC)/interface.f90 $(SRC)/main.f90 
 
 # Object files
 OBJS = $(SRCS:.f90=.o)
