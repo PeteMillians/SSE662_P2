@@ -6,14 +6,6 @@ module complex_module
 
         real(kind = 8) :: real, imag
 
-    contains
-
-        procedure :: add
-        procedure :: subtract
-        procedure :: multiply
-        procedure :: divide
-        procedure :: power
-
     end type complex_number
 
 contains
@@ -27,8 +19,10 @@ contains
         ! Returns
         !     the resulting complex number
         
+        implicit none
+
         ! Define the inputs a and b as explicitly input variables
-        class(complex_number), intent(in) :: a, b
+        type(complex_number), intent(in) :: a, b
 
         ! Define the output c as a complex number
         type(complex_number) :: c
@@ -49,8 +43,10 @@ contains
         ! Returns:
         !     the difference between a and b
 
+        implicit none
+
         ! Define the inputs a and b as explicitly input variables
-        class(complex_number), intent(in) :: a, b
+        type(complex_number), intent(in) :: a, b
 
         ! Define the output c as a complex number
         type(complex_number) :: c
@@ -71,8 +67,10 @@ contains
         ! Returns:
         !     the product of a and b
 
+        implicit none
+
         ! Define the inputs a and b as explicitly input variables
-        class(complex_number), intent(in) :: a, b
+        type(complex_number), intent(in) :: a, b
 
         ! Define the output c as a complex number
         type(complex_number) :: c
@@ -93,8 +91,10 @@ contains
         ! Returns:
         !     the quotient of a/b
 
+        implicit none
+
         ! Define the inputs a and b as explicitly input variables
-        class(complex_number), intent(in) :: a, b
+        type(complex_number), intent(in) :: a, b
         
         ! Define the output c as a complex number
         type(complex_number) :: c
@@ -121,8 +121,10 @@ contains
         ! Returns:
         !     a^n
 
+        implicit none
+
         ! Define the inputs a and b as explicitly input variables
-        class(complex_number), intent(in) :: a
+        type(complex_number), intent(in) :: a
         integer, intent(in) :: n
         
         ! Define the output c as a complex number
@@ -141,5 +143,26 @@ contains
         end do
 
     end function power
+
+    function conjugate(input) result (output)
+        
+        ! Calculate the conjugate of a complex number
+
+        ! Arguments:
+        !   input (complex_number): the complex number we want to find the conjugate of
+        ! Returns:
+        !   output (complex_number): the conjugate of the input
+
+        implicit none
+
+        ! Define the input and output types
+        type(complex_number), intent(in) :: input
+        type(complex_number) :: output
+
+        ! Assign the real and imaginary values of the output
+        output%real = input%real
+        output%imag = input%imag * (-1)
+
+    end function conjugate
 
 end module complex_module
