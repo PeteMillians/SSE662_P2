@@ -5,10 +5,124 @@ module complex_module
         ! Type definition for a Complex Number, containing a real and imaginary 2-point precision float
 
         real(kind = 8) :: real, imag
+        
+    contains
+        procedure :: print
 
     end type complex_number
 
+
 contains
+
+    function instantiate(string, format) result (instance)
+
+        ! Instantiates a complex number given the input string
+
+        ! Arguments:
+        !     string (str): the string describing the complex number
+        !     format (int): 0 for (real, imag) and 1 for real + image
+        ! Returns:    
+        !     the instantiated complex number
+
+        character(len=256), intent(in) :: string
+        integer, intent(in) :: format
+
+        character(len=:), allocatable :: s
+        type(complex_number) :: instance
+        character(len=64) :: realstr, imagstr 
+        integer :: comma, pos, signpos
+
+        ! Normalize input 
+        s = adjustl(string) 
+        s = s(1:len_trim(s))
+
+        ! Check format
+        if (format == 0) then   ! (real,imag)
+
+            ! Remove parentheses 
+            if (s(1:1) == '(' .and. s(len_trim(s):len_trim(s)) == ')') then 
+                s = s(2:len_trim(s)-1) 
+            end if 
+            
+            ! Split comma 
+            comma = index(s, ",") 
+            if (comma == 0) then 
+                instance%real = 0.0_8 
+                instance%imag = 0.0_8 
+                return 
+            end if 
+            
+            ! Part 1 = real, Part 2 = imag 
+            realstr = s(1:comma-1) 
+            imagstr = s(comma+1:len_trim(s)) 
+
+            read(realstr, *) instance%real 
+            read(imagstr, *) instance%imag
+            
+        else    ! real+imag
+
+            ! Split + or - (find last sign not at position 1) 
+            signpos = 0 
+            
+            do pos = len_trim(s)-1, 2, -1 
+                if (s(pos:pos) == '+' .or. s(pos:pos) == '-') then 
+                    signpos = pos 
+                    exit 
+                end if 
+            end do 
+
+            if (signpos == 0) then 
+                
+                ! No + or - → lone real number
+                read(s, *) instance%real 
+                instance%imag = 0.0_8 
+                return 
+            end if 
+            
+            ! Extract parts 
+            realstr = s(1:signpos-1) 
+            imagstr = s(signpos:len_trim(s)) 
+            
+            ! if Part has 'i', that is imag ! (we already removed trailing i above) 
+            read(realstr, *) instance%real 
+
+            read(imagstr, *) instance%imag
+
+        end if  
+
+    end function instantiate
+
+    function print(self, style) result (string)
+        
+        ! Creates a properly-styled string depending on the style
+
+        ! Arguments:
+        !     style (enumeration): 0 for (real, imag), 1 for real+imag
+        ! Returns:
+        !     the styled string representing the complex number
+
+        implicit none
+
+        class(complex_number), intent(in) :: self
+        integer, intent(in) :: style
+
+        character(len=256) :: string
+        character(len=32) :: rstr, istr
+
+        ! Convert numbers to strings 
+        write(rstr, '(F0.4)') self%real 
+        write(istr, '(F0.4)') self%imag
+
+        select case (style)
+        case (0)
+            string = "(" // trim(rstr) // ", " // trim(istr) // "i)"
+        case (1)
+            string = trim(rstr) // " + " // trim(istr) // "i"
+        case default
+            string = ""
+        end select
+        
+    end function print
 
     function add(a, b) result(c)
         ! Adds two complex number objects together 
