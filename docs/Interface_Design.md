@@ -26,20 +26,35 @@ This document describes the design of the Calculator Interface, which allows the
 ***function TakeInput() result (input)***
 
     Method to read the command-line input from the user
-        - Should also be able to interpret the other input syntaxes
 
 ***function GiveOutput(output)***
     
     Method to output to the command line
 
-***function validateOperator(input) result(isValid)***
+***function Validate(input) result(isValid)***
 
-    Validates an input 
+    Method to validate an input command
+
+    Arguments:
+        input (string): the input that the user entered in the command lne
+    Returns:
+        isValid (logical): true if valid, false otherwise
+
+***function HelpMenu() result (menu)***
+
+    Creates a string showing the help menu
+
+    Returns:
+        the help menu string
+
+***function Calculate(input) result (answer)***
+
+    Performs the calculation on the input string
 
     Arguments:
         input (string): the user input
     Returns:
-        true if valid, false otherwise
+        the complex number answer
 
 ***function checkContinue() result (isContinue)***
 
@@ -47,12 +62,3 @@ This document describes the design of the Calculator Interface, which allows the
 
     Returns:
         true if the user wants to continue, false otherwise
-
-***function validateNumber(input) result (isValid)***
-
-    Checks if the input complex number is valid
-
-    Arguments:
-        input (string): the user input
-    Returns:
-        true if valid, false otherwise
