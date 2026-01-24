@@ -42,7 +42,7 @@ $(TEST_TARGET): $(TEST_OBJS)
 	$(FC) $(FFLAGS) -c $< -o $@
 
 # Run tests
-test: $(TEST_TARGET)
+tests: $(TEST_TARGET)
 	./$(TEST_TARGET)
 
 # Clean rule
