@@ -56,6 +56,24 @@ This document describes the design of the Calculator Interface, which allows the
     Returns:
         the complex number answer
 
+***subroutine split(input, tokens, numTokens)***
+
+    Splits the input string by space
+
+    Arguments:
+        input (str): the input string we are splitting
+        tokens (array): an array of split strings
+        numTokens (integer): the number of tokens after the split
+
+***subroutine getNumbers(string, real, imag)***
+
+    Splits the number string into a real and an imaginary piece
+
+    Arguments:
+        input (str): the input string we are splitting
+        real (float): the real part of the string
+        imag (float): the imaginary part of the string
+
 ***function checkContinue() result (isContinue)***
 
     Checks if the user wants to continue or quit
