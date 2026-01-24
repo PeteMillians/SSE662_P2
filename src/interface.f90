@@ -1,4 +1,3 @@
-
 module cli
     
     implicit none
@@ -6,7 +5,7 @@ module cli
     integer :: format = 0
     
     
-    contains
+contains
     
     subroutine CommandLineInterface() 
         
@@ -82,7 +81,7 @@ module cli
         logical :: isValid
         
         ! Split the input by spaces
-        call split(input, tokens, n)
+        call split(" ", input, tokens, n)
         
         ! Determine if the input is valid
         select case (tokens(1))
@@ -156,66 +155,128 @@ module cli
         
         use complex_module
 
+        ! I/O Variables
         character(len = 256), intent(in) :: input
         character(len = 256) :: answer
 
+        ! Variables used for calculations
         type(complex_number) :: a, b, result
         character(len=64) :: tokens(20)
-        integer :: n, i
+        integer :: n
+        real(kind = 8) :: a_real, a_imag, b_real, b_imag
 
         ! Split the input by spaces
-        call split(input, tokens, n)
+        call split(" ", input, tokens, n)
+
         
         ! Determine if the input is valid
         select case (tokens(1))
         case ("add")
-            a = instantiate(tokens(2), format)
-            b = instantiate(tokens(3), format)
+            ! Get the real and imaginary parts of the input numbers
+            call getNumbers(tokens(2), a_real, a_imag)
+            call getNumbers(tokens(3), b_real, b_imag)
+            
+            ! Instantiate complex_number a 
+            a = instantiate(a_real, a_imag)
+
+            ! Instantiate complex_number b
+            b = instantiate(b_real, b_imag)
+            
+            ! Compute the addition of a and b
             result = add(a, b)
+
+            ! Create the string for the result given the selected format
             answer = result%print(format)
 
         case ("subtract")
-            a = instantiate(tokens(2), format)
-            b = instantiate(tokens(3), format)
+            ! Get the real and imaginary parts of the input numbers
+            call getNumbers(tokens(2), a_real, a_imag)
+            call getNumbers(tokens(3), b_real, b_imag)
+            
+            ! Instantiate complex_number a 
+            a = instantiate(a_real, a_imag)
+            
+            ! Instantiate complex_number b
+            b = instantiate(b_real, b_imag)
+
+            ! Compute the difference between a and b
             result = subtract(a, b)
+            
+            ! Create the string for the result given the selected format
             answer = result%print(format)
-
+            
         case ("multiply")
-            a = instantiate(tokens(2), format)
-            b = instantiate(tokens(3), format)
+            ! Get the real and imaginary parts of the input numbers
+            call getNumbers(tokens(2), a_real, a_imag)
+            call getNumbers(tokens(3), b_real, b_imag)
+            
+            ! Instantiate complex_number a 
+            a = instantiate(a_real, a_imag)
+
+            ! Instantiate complex_number b
+            b = instantiate(b_real, b_imag)
+            
+            ! Compute the difference between a and b
             result = multiply(a, b)
+            
+            ! Create the string for the result given the selected format
             answer = result%print(format)
-
+            
         case ("divide")
-            a = instantiate(tokens(2), format)
-            b = instantiate(tokens(3), format)
+            ! Get the real and imaginary parts of the input numbers
+            call getNumbers(tokens(2), a_real, a_imag)
+            call getNumbers(tokens(3), b_real, b_imag)
+            
+            ! Instantiate complex_number a 
+            a = instantiate(a_real, a_imag)
+
+            ! Instantiate complex_number b
+            b = instantiate(b_real, b_imag)
+            
+            ! Compute the difference between a and b
             result = divide(a, b)
-            answer = result%print(format)
 
+            ! Create the string for the result given the selected format
+            answer = result%print(format)
+            
         case ("exponent")
-            a = instantiate(tokens(2), format)
-            read(tokens(3), *) i
-            result = power(a, i)
-            answer = result%print(format)
+            ! Get the real and imaginary parts of the input numbers
+            call getNumbers(tokens(2), a_real, a_imag)
+            call getNumbers(tokens(3), b_real, b_imag)
+            
+            ! Instantiate complex_number a 
+            a = instantiate(a_real, a_imag)
 
+            ! Get the exponent b
+            n = int(b_real)
+
+            ! Compute the difference between a and b
+            result = power(a, n)
+
+            ! Create the string for the result given the selected format
+            answer = result%print(format)
+            
         case ("format")
+            
+            ! Update the format to the selected format
             read(tokens(2), *) format
 
         end select
     
     end function Calculate
 
-    subroutine split(input, tokens, numTokens)
+    subroutine split(partition, input, tokens, numTokens)
 
         ! Splits the input string by space
 
         ! Arguments:
+            ! partition (str): the string we are splitting the input by
             ! input (str): the input string we are splitting
             ! tokens (array): an array of split strings
             ! numTokens (integer): the number of tokens after the split
 
         implicit none
-        character(len=*), intent(in) :: input
+        character(len=*), intent(in) :: partition, input
         character(len=*), dimension(:), intent(out) :: tokens
         integer, intent(out) :: numTokens
 
@@ -232,7 +293,7 @@ module cli
         do while (i <= lenline)
 
             ! Skip leading spaces
-            do while (i <= lenline .and. input(i:i) == ' ')
+            do while (i <= lenline .and. input(i:i) == partition)
 
                 i = i + 1
 
@@ -244,7 +305,7 @@ module cli
             start = i
 
             ! Move until next space
-            do while (i <= lenline .and. input(i:i) /= ' ')
+            do while (i <= lenline .and. input(i:i) /= partition)
                 i = i + 1
             end do
 
@@ -257,6 +318,96 @@ module cli
         end do
 
     end subroutine split
+
+    subroutine getNumbers(string, realNum, imagNum)
+
+        ! Splits the number string into a real and an imaginary piece
+
+        ! Arguments:
+        !     input (str): the input string we are splitting
+        !     realNum (float): the real part of the string
+        !     imagNum (float): the imaginary part of the string
+
+        ! I/O Variables
+        character(len = 256), intent(in) :: string
+        real(kind = 8) :: realNum, imagNum
+        
+        ! Trimmed string
+        character(len = 256) :: trimmed
+
+        ! Split information
+        character(len=256) :: tokens(2)     ! There will be at most 2 tokens
+        integer :: numTokens
+
+        ! Character index variable
+        integer :: ind
+        
+        ! Trim space padding
+        trimmed = trim(string)
+
+        ! Check for ()
+        ind = index(trimmed, "(")
+        
+        ! Check if the ( exists
+        if (ind /= 0) then
+
+            ! Remove the parentheses from the number string
+            trimmed = trimmed(ind + 1 :)
+
+            ind = index(trimmed, ")")
+
+            trimmed = trimmed(1 : ind - 1)
+
+            ! Find the index of the comma
+            call split(",", trimmed, tokens, numTokens)
+
+            read(tokens(1), *) realNum
+            read(tokens(2), *) imagNum
+        
+        else 
+
+            call split("+", trimmed, tokens, numTokens)
+
+            if (numTokens /= 0) then    ! If there is a plus sign
+
+                ! Save the real number
+                read(tokens(1), *) realNum
+                
+                ! Remove the trailing i
+                ind = index(tokens(2), "i")
+                read(tokens(2)(1 : ind - 1), *) imagNum
+
+            else    ! Could be just a real, just an imag, or minus sign
+
+                call split("-", trimmed, tokens, numTokens)
+
+                if (numTokens /= 0) then    ! If there is a minus sign
+
+                    ! Save the real number
+                    read(tokens(1), *) realNum
+                    
+                    ! Remove the trailing i
+                    ind = index(tokens(2), "i")
+                    read(tokens(2)(1 : ind - 1), *) imagNum
+                    imagNum = imagNum * (-1)
+
+                else    ! No signs, so either a real or an imag
+
+                    ! Determine if real or imag
+                    ind = index(trimmed, "i")
+
+                    if (ind /= 0) then  ! An i is present, so imaginary
+
+                        realNum = 0.0_8
+                        read(trimmed(1 : ind - 1), *) imagNum
+
+                    end if
+                end if
+            end if
+        end if
+        
+
+    end subroutine getNumbers
 
     
 end module cli
