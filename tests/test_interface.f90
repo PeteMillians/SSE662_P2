@@ -18,11 +18,28 @@ contains
             stop 1
         end if
 
+        splitChar = "-"
 
+        call split(splitChar, string, tokens, numTokens)
+
+        if (numTokens - 2 >= 1e-6) then
+            print *, "FAIL test_split:", numTokens 
+            stop 1
+        end if
+
+        splitChar = "-"
+        string = "-4-2i"
+
+        call split(splitChar, string, tokens, numTokens)
+
+        if (numTokens - 3 >= 1e-6) then
+            print *, "FAIL test_split:", numTokens 
+            stop 1
+        end if
 
     end subroutine test_split
 
-    subroutine test_getNumbersPositiveImag()
+    subroutine test_getNumbersPositiveImag_format1()
 
         character(len = 256) :: testString
         real(kind = 8) :: testReal, testImag
@@ -32,60 +49,18 @@ contains
         call getNumbers(testString, testReal, testImag)
 
         if (testReal - 4 >= 1e-12) then
-            print *, "FAIL: test_getNumbersPositiveImag", testReal 
+            print *, "FAIL: test_getNumbersPositiveImag_format1 ", testReal 
             stop 1
         end if
         
         if (testImag - 2 >= 1e-12) then
-            print *, "FAIL: test_getNumbersPositiveImag", testImag 
+            print *, "FAIL: test_getNumbersPositiveImag_format1 ", testImag 
             stop 1
         end if
 
-    end subroutine test_getNumbersPositiveImag
+    end subroutine test_getNumbersPositiveImag_format1
     
-    subroutine test_getNumbersNegativeImag()
-
-        character(len = 256) :: testString
-        real(kind = 8) :: testReal, testImag
-
-        testString = "4-2i"
-
-        call getNumbers(testString, testReal, testImag)
-
-        if (testReal - 4 >= 1e-12) then
-            print *, "FAIL: test_getNumbersNegativeImag", testReal 
-            stop 1
-        end if
-        
-        if (testImag + 2 >= 1e-12) then
-            print *, "FAIL: test_getNumbersNegativeImag", testImag 
-            stop 1
-        end if
-
-    end subroutine test_getNumbersNegativeImag
-
-    subroutine test_getNumbersPositiveReal()
-
-        character(len = 256) :: testString
-        real(kind = 8) :: testReal, testImag
-
-        testString = "4-2i"
-
-        call getNumbers(testString, testReal, testImag)
-
-        if (testReal - 4 >= 1e-12) then
-            print *, "FAIL: test_getNumbersPositiveReal", testReal 
-            stop 1
-        end if
-        
-        if (testImag - 2 >= 1e-12) then
-            print *, "FAIL: test_getNumbersPositiveReal", testImag 
-            stop 1
-        end if
-
-    end subroutine test_getNumbersPositiveReal
-    
-    subroutine test_getNumbersNegativeReal()
+    subroutine test_getNumbersNegativeImag_format1()
 
         character(len = 256) :: testString
         real(kind = 8) :: testReal, testImag
@@ -95,15 +70,194 @@ contains
         call getNumbers(testString, testReal, testImag)
 
         if (testReal + 4 >= 1e-12) then
-            print *, "FAIL: test_getNumbersNegativeReal ", testReal 
+            print *, "FAIL: test_getNumbersNegativeImag_format1 ", testReal 
             stop 1
         end if
         
         if (testImag + 2 >= 1e-12) then
-            print *, "FAIL: test_getNumbersNegativeReal ", testImag 
+            print *, "FAIL: test_getNumbersNegativeImag_format1 ", testImag 
             stop 1
         end if
 
-    end subroutine test_getNumbersNegativeReal
+    end subroutine test_getNumbersNegativeImag_format1
 
+    subroutine test_getNumbersPositiveReal_format1()
+
+        character(len = 256) :: testString
+        real(kind = 8) :: testReal, testImag
+
+        testString = "4-2i"
+
+        call getNumbers(testString, testReal, testImag)
+
+        if (testReal - 4 >= 1e-12) then
+            print *, "FAIL: test_getNumbersPositiveReal_format1 ", testReal 
+            stop 1
+        end if
+        
+        if (testImag + 2 >= 1e-12) then
+            print *, "FAIL: test_getNumbersPositiveReal_format1 ", testImag 
+            stop 1
+        end if
+
+    end subroutine test_getNumbersPositiveReal_format1
+    
+    subroutine test_getNumbersNegativeReal_format1()
+
+        character(len = 256) :: testString
+        real(kind = 8) :: testReal, testImag
+
+        testString = "-4+2i"
+
+        call getNumbers(testString, testReal, testImag)
+
+        if (testReal + 4 >= 1e-12) then
+            print *, "FAIL: test_getNumbersNegativeReal_format1 ", testReal 
+            stop 1
+        end if
+        
+        if (testImag - 2 >= 1e-12) then
+            print *, "FAIL: test_getNumbersNegativeReal_format1 ", testImag 
+            stop 1
+        end if
+
+    end subroutine test_getNumbersNegativeReal_format1
+
+    subroutine test_getNumbersPositiveImag_format0()
+
+        character(len = 256) :: testString
+        real(kind = 8) :: testReal, testImag
+
+        testString = "(-4,2)"
+
+        call getNumbers(testString, testReal, testImag)
+
+        if (testReal - 4 >= 1e-12) then
+            print *, "FAIL: test_getNumbersPositiveImag_format0 ", testReal 
+            stop 1
+        end if
+        
+        if (testImag - 2 >= 1e-12) then
+            print *, "FAIL: test_getNumbersPositiveImag_format0 ", testImag 
+            stop 1
+        end if
+
+    end subroutine test_getNumbersPositiveImag_format0
+    
+    subroutine test_getNumbersNegativeImag_format0()
+
+        character(len = 256) :: testString
+        real(kind = 8) :: testReal, testImag
+
+        testString = "(4,-2)"
+
+        call getNumbers(testString, testReal, testImag)
+
+        if (testReal - 4 >= 1e-12) then
+            print *, "FAIL: test_getNumbersNegativeImag_format0 ", testReal 
+            stop 1
+        end if
+        
+        if (testImag + 2 >= 1e-12) then
+            print *, "FAIL: test_getNumbersNegativeImag_format0 ", testImag 
+            stop 1
+        end if
+
+    end subroutine test_getNumbersNegativeImag_format0
+
+    subroutine test_getNumbersPositiveReal_format0()
+
+        character(len = 256) :: testString
+        real(kind = 8) :: testReal, testImag
+
+        testString = "(4,2)"
+
+        call getNumbers(testString, testReal, testImag)
+
+        if (testReal - 4 >= 1e-12) then
+            print *, "FAIL: test_getNumbersPositiveReal_format0 ", testReal 
+            stop 1
+        end if
+        
+        if (testImag - 2 >= 1e-12) then
+            print *, "FAIL: test_getNumbersPositiveReal_format0 ", testImag 
+            stop 1
+        end if
+
+    end subroutine test_getNumbersPositiveReal_format0
+    
+    subroutine test_getNumbersNegativeReal_format0()
+
+        character(len = 256) :: testString
+        real(kind = 8) :: testReal, testImag
+
+        testString = "(-4,-2)"
+
+        call getNumbers(testString, testReal, testImag)
+
+        if (testReal + 4 >= 1e-12) then
+            print *, "FAIL: test_getNumbersNegativeReal_format0 ", testReal 
+            stop 1
+        end if
+        
+        if (testImag + 2 >= 1e-12) then
+            print *, "FAIL: test_getNumbersNegativeReal_format0 ", testImag 
+            stop 1
+        end if
+
+    end subroutine test_getNumbersNegativeReal_format0
+
+    subroutine test_validate()
+        character(len = 256) :: input
+
+        input = "add 2 4"
+
+        if (.not. Validate(input)) then
+            print *, "FAIL: test_validate: ", input 
+            stop 1
+        end if
+
+        input = "subtract 2 4"
+
+        if (.not. Validate(input)) then
+            print *, "FAIL: test_validate: ", input 
+            stop 1
+        end if
+
+        input = "multiply 2 4"
+
+        if (.not. Validate(input)) then
+            print *, "FAIL: test_validate: ", input 
+            stop 1
+        end if
+
+        input = "divide 2 4"
+
+        if (.not. Validate(input)) then
+            print *, "FAIL: test_validate: ", input 
+            stop 1
+        end if
+
+        input = "exponent 2 4"
+
+        if (.not. Validate(input)) then
+            print *, "FAIL: test_validate: ", input 
+            stop 1
+        end if
+
+        input = "format 2 4"
+
+        if (.not. Validate(input)) then
+            print *, "FAIL: test_validate: ", input 
+            stop 1
+        end if
+
+        input = "asdasd"
+
+        if (Validate(input)) then
+            print *, "FAIL: test_validate: ", input 
+            stop 1
+        end if
+
+    end subroutine test_validate
 end module test_interface
