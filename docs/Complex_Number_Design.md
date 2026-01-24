@@ -20,6 +20,24 @@ This document describes the design of the Complex Number type, which is a custom
 
     Type definition for a Complex Number, containing a real and imaginary 2-point precision float
 
+***function instantiate(real, imag) result (complexNumber)***
+
+    Instantiates a complex number from a real and imaginary integers
+
+    Arguments:
+        real (int): the real number
+        imag (int): the imaginary number
+    Returns:
+        the instantiated complex number
+
+***print(self, format) return (string)***
+
+    Method to convert the complex number into a formatted string
+
+    Arguments:
+        self (compelx_number): the complex number we are formatting
+        format (integer): the format we are printing it as
+
 ***function add(a, b) result (c)***
     
     Adds two complex number objects together 
