@@ -267,7 +267,7 @@ contains
 
     subroutine split(partition, input, tokens, numTokens)
 
-        ! Splits the input string by space
+        ! Splits the input string by the partition
 
         ! Arguments:
             ! partition (str): the string we are splitting the input by
@@ -368,7 +368,7 @@ contains
 
             call split("+", trimmed, tokens, numTokens)
 
-            if (numTokens /= 0) then    ! If there is a plus sign
+            if (numTokens /= 1) then    ! If there is a plus sign
 
                 ! Save the real number
                 read(tokens(1), *) realNum
@@ -380,11 +380,16 @@ contains
             else    ! Could be just a real, just an imag, or minus sign
 
                 call split("-", trimmed, tokens, numTokens)
-
-                if (numTokens /= 0) then    ! If there is a minus sign
-
+                
+                if (numTokens /= 1) then    ! If there is a minus sign
+                    
                     ! Save the real number
                     read(tokens(1), *) realNum
+                    
+                    ! Check if the real value is negative
+                    if (index(trimmed, "-") == 1) then
+                        realNum = realNum * (-1)
+                    end if
                     
                     ! Remove the trailing i
                     ind = index(tokens(2), "i")
