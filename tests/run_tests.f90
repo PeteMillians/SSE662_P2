@@ -3,6 +3,7 @@ program run_tests
     use test_utility
     implicit none
 
+    ! Utility tests
     call test_split()
     call test_getNumbersPositiveImag_format0()
     call test_getNumbersNegativeImag_format0()
@@ -12,7 +13,10 @@ program run_tests
     call test_getNumbersNegativeImag_format1()
     call test_getNumbersPositiveReal_format1()
     call test_getNumbersNegativeReal_format1()
+
+    ! ! Interface Tests
     call test_validate()
+    call test_add()
 
     print *, "All tests passed."
 end program run_tests
