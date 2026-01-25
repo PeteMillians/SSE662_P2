@@ -1,5 +1,6 @@
 program run_tests
     use test_interface
+    use test_utility
     implicit none
 
     call test_split()
