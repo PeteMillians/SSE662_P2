@@ -10,14 +10,17 @@ TEST = tests
 
 # Source files for main program
 SRCS =  $(SRC)/complex_number.f90 \
+		$(SRC)/utility.f90 \
 		$(SRC)/interface.f90 \
 		$(SRC)/main.f90
 OBJS = $(SRCS:.f90=.o)
 
 # Test source files
 TEST_SRCS = $(SRC)/complex_number.f90 \
+            $(SRC)/utility.f90 \
             $(SRC)/interface.f90 \
             $(TEST)/test_interface.f90 \
+            $(TEST)/test_utility.f90 \
             $(TEST)/run_tests.f90
 
 TEST_OBJS = $(TEST_SRCS:.f90=.o)
