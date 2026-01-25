@@ -23,6 +23,7 @@ contains
         
         do while (isContinue)
             ! Take the initial input
+            call ClearScreen()
             call GiveOutput("Enter a command: ")
             input = TakeInput()
             
@@ -84,24 +85,58 @@ contains
         ! Split the input by spaces
         call split(" ", input, tokens, n)
         
+        isValid = .false.
+
         ! Determine if the input is valid
         select case (tokens(1))
         case ("add")
-            isValid = .true.
+
+            ! Make sure there are 3 tokens
+            if (n == 3) then
+                isValid = .true.
+            end if
+
         case ("subtract")
-            isValid = .true.
+
+            ! Make sure there are 3 tokens
+            if (n == 3) then
+                isValid = .true.
+            end if
+
         case ("multiply")
-            isValid = .true.
+
+            ! Make sure there are 3 tokens
+            if (n == 3) then
+                isValid = .true.
+            end if
+
         case ("divide")
-            isValid = .true.
+
+            ! Make sure there are 3 tokens
+            if (n == 3) then
+                isValid = .true.
+            end if
+
         case ("power")
-            isValid = .true.
+
+            ! Make sure there are 3 tokens
+            if (n == 3) then
+                isValid = .true.
+            end if
+
         case ("format")
-            isValid = .true.
+            
+            ! Make sure there are 2 tokens
+            if (n == 2) then
+                isValid = .true.
+            end if
+
         case ("conjugate")
-            isValid = .true.
-        case default
-            isValid = .false.
+            
+            ! Make sure there are 2 tokens
+            if (n == 2) then
+                isValid = .true.
+            end if
             
         end select
         
@@ -276,8 +311,16 @@ contains
             ! Update the format to the selected format
             read(tokens(2), *) format
 
+            answer = ""
+
         end select
     
     end function Calculate
+
+    subroutine ClearScreen()
+
+        call GiveOutput(char(27)//"[2J"//char(27)//"[H")
+
+    end subroutine
     
 end module cli
