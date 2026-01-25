@@ -162,13 +162,12 @@ contains
 
         ! Variables used for calculations
         type(complex_number) :: a, b, result
-        character(len=64) :: tokens(20)
+        character(len=256) :: tokens(20)
         integer :: n
         real(kind = 8) :: a_real, a_imag, b_real, b_imag
 
         ! Split the input by spaces
         call split(" ", input, tokens, n)
-
         
         ! Determine if the input is valid
         select case (tokens(1))
@@ -179,7 +178,7 @@ contains
             
             ! Instantiate complex_number a 
             a = instantiate(a_real, a_imag)
-
+            
             ! Instantiate complex_number b
             b = instantiate(b_real, b_imag)
             
