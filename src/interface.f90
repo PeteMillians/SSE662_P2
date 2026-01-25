@@ -429,6 +429,15 @@ contains
 
     subroutine getNumbers_positiveImag(first, second, realNum, imagNum)
 
+        ! Logic to get the real and imaginary numbers in a complex number if the imaginary number is positive
+
+        ! Arguments:
+        !     first (str): the token containing the real number
+        !     second (str): the token containing the imaginary number
+        ! Returns:
+        !     realNum (float): the real number
+        !     imagNum (float): the imaginary number
+
         character(len = 256), intent(in) :: first, second
         real(kind = 8) :: realNum, imagNum
         integer :: ind
@@ -444,6 +453,15 @@ contains
     end subroutine getNumbers_positiveImag
 
     subroutine getNumbers_negativeImag(string, realNum, imagNum)
+
+        ! Logic to get the real and imaginary numbers in a complex number if the imaginary number is negative
+
+        ! Arguments:
+        !     first (str): the token containing the real number
+        !     second (str): the token containing the imaginary number
+        ! Returns:
+        !     realNum (float): the real number
+        !     imagNum (float): the imaginary number
         
         character(len = 256), intent(in) :: string
         real(kind = 8) :: realNum, imagNum
@@ -455,7 +473,7 @@ contains
 
         call split("-", string, tokens, numTokens)
             
-        if (numTokens /= 1) then    ! If there is a minus sign
+        if (numTokens /= 1) then    ! If negative real part
             
             ! Save the real number
             read(tokens(1), *) realNum
@@ -479,6 +497,11 @@ contains
 
                 realNum = 0.0_8
                 read(string(1 : ind - 1), *) imagNum
+            else
+                
+                ! Just a real number
+                read(string, *) realNum
+                imagNum = 0.0_8
 
             end if
 
