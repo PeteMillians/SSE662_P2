@@ -94,9 +94,11 @@ contains
             isValid = .true.
         case ("divide")
             isValid = .true.
-        case ("exponent")
+        case ("power")
             isValid = .true.
         case ("format")
+            isValid = .true.
+        case ("conjugate")
             isValid = .true.
         case default
             isValid = .false.
@@ -239,7 +241,7 @@ contains
             ! Create the string for the result given the selected format
             answer = result%print(format)
             
-        case ("exponent")
+        case ("power")
             ! Get the real and imaginary parts of the input numbers
             call getNumbers(tokens(2), a_real, a_imag)
             call getNumbers(tokens(3), b_real, b_imag)
@@ -252,6 +254,19 @@ contains
 
             ! Compute the difference between a and b
             result = power(a, n)
+
+            ! Create the string for the result given the selected format
+            answer = result%print(format)
+
+        case ("conjugate")
+            ! Get the real and imaginary parts of the input number
+            call getNumbers(tokens(2), a_real, a_imag)
+
+            ! Instantiate complex_number a 
+            a = instantiate(a_real, a_imag)
+
+            ! Compute the difference between a and b
+            result = conjugate(a)
 
             ! Create the string for the result given the selected format
             answer = result%print(format)

@@ -14,9 +14,15 @@ program run_tests
     call test_getNumbersPositiveReal_format1()
     call test_getNumbersNegativeReal_format1()
 
-    ! ! Interface Tests
+    ! Interface Tests
     call test_validate()
     call test_add()
+    call test_subtract()
+    call test_multiply()
+    call test_divide()
+    call test_power()
+    call test_conjugate()
+    call test_format()
 
     print *, "All tests passed."
 end program run_tests
