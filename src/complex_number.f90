@@ -191,10 +191,19 @@ contains
         c%real = 1.0_8
         c%imag = 0.0_8
 
-        ! Loop to multiple c by a for every n power
-        do i = 1, n
-            c = multiply(c, a)
-        end do
+        if (n >= 0) then
+    
+            ! Loop to multiple c by a for every n power
+            do i = 1, n
+                c = multiply(c, a)
+            end do
+        
+        else
+            do i = 1, -n
+                c = divide(c, a)
+            end do
+        
+        end if
 
     end function power
 
