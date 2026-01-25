@@ -42,7 +42,7 @@ contains
             stop 1
         end if
 
-        input = "format 2 4"
+        input = "format 1"
 
         if (.not. Validate(input)) then
             print *, "FAIL: test_validate: ", input 
