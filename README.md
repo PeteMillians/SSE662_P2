@@ -1,6 +1,6 @@
 # Complex Number Calculator in FORTRAN
 
-TODO: Add description
+The Complex Number Calculator is a FORTRAN-operated command-line-interface powered tool used to perform calculations between complex numbers. This calculator is functional with purely-real components and purely-imaginary components. 
 
 ## Compiling
 
@@ -32,11 +32,14 @@ Once the main file has been compiled, run the Complex Number Calculator using th
 ```
 
 The calculator has the following features:
-- Addition
-- Subtraction
-- Multiplication
-- Division
-- Exponent
+| Feature | Example |
+| ------- | ------- |
+| Addition | add a b|
+| Subtraction | subtract a b |
+| Multiplication | multiply a b|
+| Division | divide a b |
+| Exponents | power a n |
+| Conjugation | conjugate a |
 
 *Note: Each of these functions work with complex numbers*
 
@@ -44,7 +47,14 @@ To use any function in the calculator, enter the command you wish to apply follo
 - real+imagi
 - (real,imag)
 
-*Note: Complex numbers cannot contain spaces*
+#### ----**Note: Complex numbers cannot contain spaces**----
+
+The following table describes the possible formats to input complex numbers:
+
+| Format | Example |
+| ------ | ------- |
+| real+imagi | 2+3i |
+| (real,imag) | (2,3) |
 
 
 ```
@@ -70,4 +80,51 @@ To use the addition tool in the Complex Number Calculator, precede your complex 
 
 ```
 Enter a command: add 4+2i (3,-5)
+```
+
+## Subtraction
+To use the subtraction tool in the Complex Number Calculator, precede your complex numbers with the keyword **subtract**:
+
+```
+Enter a command: subtract 4+2i (3,-5)
+```
+
+## Multiplication
+To use the multiplication tool in the Complex Number Calculator, precede your complex numbers with the keyword **multiply**:
+
+```
+Enter a command: multiply 4+2i (3,-5)
+```
+
+## Division
+To use the division tool in the Complex Number Calculator, precede your complex numbers with the keyword **divide**:
+
+```
+Enter a command: divide 4+2i (3,-5)
+```
+
+## Power
+To use the power tool in the Complex Number Calculator, precede your complex number and power integer with the keyword **power**:
+
+```
+Enter a command: power 4+2i -5
+```
+
+## Format
+Formatting in the Complex Number Calculator is used to change the output format from the calculator. The default format, format 0, outputs any answer in the following format:
+
+```
+(real, imag)
+```
+
+However, the user can change the format to format 1 to display the output in the following format:
+
+```
+real + imag
+```
+
+To use the format tool in the Complex Number Calculator, precede your format choice with the keyword **format**:
+
+```
+Enter a command: format 0
 ```
