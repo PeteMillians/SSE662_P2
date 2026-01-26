@@ -49,6 +49,13 @@ contains
             stop 1
         end if
 
+        input = "conjugate 1"
+
+        if (.not. Validate(input)) then
+            print *, "FAIL: test_validate: ", input 
+            stop 1
+        end if
+
         input = "asdasd"
 
         if (Validate(input)) then
