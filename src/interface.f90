@@ -17,7 +17,7 @@ contains
         character(len=256) :: input
         logical :: isContinue
         
-        character(len = 400) :: outputStr
+        character(len = 410) :: outputStr
         
         isContinue = .true.
         
@@ -168,7 +168,7 @@ contains
         ! Returns:
         !     the help menu string
         
-        character(len=400) :: menu 
+        character(len=410) :: menu 
         
         menu = &
         "Available commands:" // new_line('a') // &
@@ -176,8 +176,9 @@ contains
         "  subtract          - Subtract b from a" // new_line('a') // &
         "  multiply          - Multiply two complex numbers" // new_line('a') // &
         "  divide            - Divide a by b" // new_line('a') // &
-        "  exponent          - Raise a to the nth power" // new_line('a') // &
+        "  power             - Raise a to the nth power" // new_line('a') // &
         "  format            - Change output format. 0 = (real, imag), 1 = real + imag" // new_line('a') // &
+        "  conjugate         - Compute the conjugate of a" // new_line('a') // &
         " Note*: Examples can be found in README.md" // new_line('a')
                
     end function HelpMenu
