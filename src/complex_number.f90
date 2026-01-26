@@ -46,8 +46,9 @@ contains
         class(complex_number), intent(in) :: self
         integer, intent(in) :: style
 
-        character(len=256) :: string
-        character(len=32) :: rstr, istr
+        character(len = 256) :: string
+        character(len = 3) :: sign
+        character(len = 32) :: rstr, istr
 
         ! Convert numbers to strings 
         write(rstr, '(F0.4)') self%real 
@@ -57,7 +58,13 @@ contains
         case (0)
             string = "(" // trim(rstr) // ", " // trim(istr) // ")"
         case (1)
-            string = trim(rstr) // " + " // trim(istr) // "i"
+            if (self%imag >= 0) then
+                sign = " + "
+            else
+                sign = " - "
+            end if
+
+            string = trim(rstr) // sign // trim(istr) // "i"
         case default
             string = ""
         end select
@@ -224,7 +231,7 @@ contains
 
         ! Assign the real and imaginary values of the output
         output%real = input%real
-        output%imag = input%imag * (-1)
+        output%imag = -input%imag
 
     end function conjugate
 
