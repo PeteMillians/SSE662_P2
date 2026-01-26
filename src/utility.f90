@@ -58,7 +58,7 @@ contains
 
     end subroutine split
 
-    subroutine getNumbers(string, realNum, imagNum)
+    subroutine getNumbers(string, realNum, imagNum, error)
 
         ! Splits the number string into a real and an imaginary piece
 
@@ -76,7 +76,7 @@ contains
         character(len = 256) :: trimmed
 
         ! Character index variable
-        integer :: ind
+        integer :: ind, error
         
         ! Trim space padding
         trimmed = trim(string)
@@ -86,14 +86,16 @@ contains
         
         ! Check if the ( exists
         if (ind /= 0) then
-            call getNumbers_format0(trimmed, realNum, imagNum)
+            call getNumbers_format0(trimmed, realNum, imagNum, error)
+                
         else 
-            call getNumbers_format1(trimmed, realNum, imagNum)
+            call getNumbers_format1(trimmed, realNum, imagNum, error)
+        
         end if
 
     end subroutine getNumbers
 
-    subroutine getNumbers_format0(string, realNum, imagNum)
+    subroutine getNumbers_format0(string, realNum, imagNum, error)
 
         ! Logic for interpreting real and imaginary numbers in a format 0 string
 
@@ -111,7 +113,7 @@ contains
         integer :: numTokens
 
         character(len = 256) :: trimmed
-        integer :: ind
+        integer :: ind, error
         
         ind = index(string, "(")
         
@@ -125,12 +127,12 @@ contains
         ! Find the index of the comma
         call split(",", trimmed, tokens, numTokens)
 
-        read(tokens(1), *) realNum
-        read(tokens(2), *) imagNum
+        read(tokens(1), *, iostat = error) realNum
+        read(tokens(2), *, iostat = error) imagNum
 
     end subroutine getNumbers_format0
 
-    subroutine getNumbers_format1(string, realNum, imagNum)
+    subroutine getNumbers_format1(string, realNum, imagNum, error)
 
         ! Logic for interpreting real and imaginary numbers in a format 1 string
 
@@ -146,6 +148,8 @@ contains
         ! Split information
         character(len=256) :: tokens(2)     ! There will be at most 2 tokens
         integer :: numTokens
+
+        integer :: error
     
         character(len = 256) :: trimmed
 
@@ -156,17 +160,17 @@ contains
 
         if (numTokens /= 1) then    ! If there is a plus sign
 
-            call getNumbers_positiveImag(tokens(1), tokens(2), realNum, imagNum)
+            call getNumbers_positiveImag(tokens(1), tokens(2), realNum, imagNum, error)
 
         else    ! Could be just a real, just an imag, or minus sign
 
-            call getNumbers_negativeImag(trimmed, realNum, imagNum)
+            call getNumbers_negativeImag(trimmed, realNum, imagNum, error)
             
         end if
 
     end subroutine getNumbers_format1
 
-    subroutine getNumbers_positiveImag(first, second, realNum, imagNum)
+    subroutine getNumbers_positiveImag(first, second, realNum, imagNum, error)
 
         ! Logic to get the real and imaginary numbers in a complex number if the imaginary number is positive
 
@@ -179,19 +183,19 @@ contains
 
         character(len = 256), intent(in) :: first, second
         real(kind = 8) :: realNum, imagNum
-        integer :: ind
+        integer :: ind, error
         
         ! Save the real number
-        read(first, *) realNum
+        read(first, *, iostat = error) realNum
 
         
         ! Remove the trailing i
         ind = index(second, "i")
-        read(second(1 : ind - 1), *) imagNum
+        read(second(1 : ind - 1), *, iostat = error) imagNum
 
     end subroutine getNumbers_positiveImag
 
-    subroutine getNumbers_negativeImag(string, realNum, imagNum)
+    subroutine getNumbers_negativeImag(string, realNum, imagNum, error)
 
         ! Logic to get the real and imaginary numbers in a complex number if the imaginary number is negative
 
@@ -204,7 +208,7 @@ contains
         
         character(len = 256), intent(in) :: string
         real(kind = 8) :: realNum, imagNum
-        integer :: ind
+        integer :: ind, error
 
         ! Split information
         character(len=256) :: tokens(2)     ! There will be at most 2 tokens
@@ -215,7 +219,7 @@ contains
         if (numTokens /= 1) then    ! If negative real part
             
             ! Save the real number
-            read(tokens(1), *) realNum
+            read(tokens(1), *, iostat = error) realNum
             
             ! Check if the real value is negative
             if (index(string, "-") == 1) then
@@ -224,7 +228,7 @@ contains
             
             ! Remove the trailing i
             ind = index(tokens(2), "i")
-            read(tokens(2)(1 : ind - 1), *) imagNum
+            read(tokens(2)(1 : ind - 1), *, iostat = error) imagNum
             imagNum = imagNum * (-1)
 
         else    ! No signs, so either a real or an imag
@@ -235,11 +239,11 @@ contains
             if (ind /= 0) then  ! An i is present, so imaginary
 
                 realNum = 0.0_8
-                read(string(1 : ind - 1), *) imagNum
+                read(string(1 : ind - 1), *, iostat = error) imagNum
             else
                 
                 ! Just a real number
-                read(string, *) realNum
+                read(string, *, iostat = error) realNum
                 imagNum = 0.0_8
 
             end if

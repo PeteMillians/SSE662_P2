@@ -200,7 +200,7 @@ contains
         ! Variables used for calculations
         type(complex_number) :: a, b, result
         character(len=256) :: tokens(20)
-        integer :: n
+        integer :: n, error
         real(kind = 8) :: a_real, a_imag, b_real, b_imag
 
         ! Split the input by spaces
@@ -210,8 +210,8 @@ contains
         select case (tokens(1))
         case ("add")
             ! Get the real and imaginary parts of the input numbers
-            call getNumbers(tokens(2), a_real, a_imag)
-            call getNumbers(tokens(3), b_real, b_imag)
+            call getNumbers(tokens(2), a_real, a_imag, error)
+            call getNumbers(tokens(3), b_real, b_imag, error)
             
             ! Instantiate complex_number a 
             a = instantiate(a_real, a_imag)
@@ -227,8 +227,8 @@ contains
 
         case ("subtract")
             ! Get the real and imaginary parts of the input numbers
-            call getNumbers(tokens(2), a_real, a_imag)
-            call getNumbers(tokens(3), b_real, b_imag)
+            call getNumbers(tokens(2), a_real, a_imag, error)
+            call getNumbers(tokens(3), b_real, b_imag, error)
             
             ! Instantiate complex_number a 
             a = instantiate(a_real, a_imag)
@@ -244,8 +244,8 @@ contains
             
         case ("multiply")
             ! Get the real and imaginary parts of the input numbers
-            call getNumbers(tokens(2), a_real, a_imag)
-            call getNumbers(tokens(3), b_real, b_imag)
+            call getNumbers(tokens(2), a_real, a_imag, error)
+            call getNumbers(tokens(3), b_real, b_imag, error)
             
             ! Instantiate complex_number a 
             a = instantiate(a_real, a_imag)
@@ -261,8 +261,8 @@ contains
             
         case ("divide")
             ! Get the real and imaginary parts of the input numbers
-            call getNumbers(tokens(2), a_real, a_imag)
-            call getNumbers(tokens(3), b_real, b_imag)
+            call getNumbers(tokens(2), a_real, a_imag, error)
+            call getNumbers(tokens(3), b_real, b_imag, error)
             
             ! Instantiate complex_number a 
             a = instantiate(a_real, a_imag)
@@ -278,8 +278,8 @@ contains
             
         case ("power")
             ! Get the real and imaginary parts of the input numbers
-            call getNumbers(tokens(2), a_real, a_imag)
-            call getNumbers(tokens(3), b_real, b_imag)
+            call getNumbers(tokens(2), a_real, a_imag, error)
+            call getNumbers(tokens(3), b_real, b_imag, error)
             
             ! Instantiate complex_number a 
             a = instantiate(a_real, a_imag)
@@ -295,7 +295,7 @@ contains
 
         case ("conjugate")
             ! Get the real and imaginary parts of the input number
-            call getNumbers(tokens(2), a_real, a_imag)
+            call getNumbers(tokens(2), a_real, a_imag, error)
 
             ! Instantiate complex_number a 
             a = instantiate(a_real, a_imag)
@@ -309,11 +309,15 @@ contains
         case ("format")
             
             ! Update the format to the selected format
-            read(tokens(2), *) format
+            read(tokens(2), *, iostat = error) format
 
             answer = ""
 
         end select
+
+        if (error /= 0) then
+            answer = "Error: Invalid entry"
+        end if
     
     end function Calculate
 

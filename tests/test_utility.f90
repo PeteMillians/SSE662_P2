@@ -13,7 +13,7 @@ contains
 
         call split(splitChar, string, tokens, numTokens)
 
-        if (numTokens - 1 >= 1e-6) then
+        if (numTokens - 1 >= 1e-6 .or. error /= 0) then
             print *, "FAIL test_split:", numTokens 
             stop 1
         end if
@@ -22,7 +22,7 @@ contains
 
         call split(splitChar, string, tokens, numTokens)
 
-        if (numTokens - 2 >= 1e-6) then
+        if (numTokens - 2 >= 1e-6 .or. error /= 0) then
             print *, "FAIL test_split:", numTokens 
             stop 1
         end if
@@ -32,7 +32,7 @@ contains
 
         call split(splitChar, string, tokens, numTokens)
 
-        if (numTokens - 3 >= 1e-6) then
+        if (numTokens - 3 >= 1e-6 .or. error /= 0) then
             print *, "FAIL test_split:", numTokens 
             stop 1
         end if
@@ -43,17 +43,18 @@ contains
 
         character(len = 256) :: testString
         real(kind = 8) :: testReal, testImag
+        integer :: error
 
         testString = "4+2i"
 
-        call getNumbers(testString, testReal, testImag)
+        call getNumbers(testString, testReal, testImag, error)
 
-        if (testReal - 4 >= 1e-12) then
+        if (testReal - 4 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersPositiveImag_format1 ", testReal 
             stop 1
         end if
         
-        if (testImag - 2 >= 1e-12) then
+        if (testImag - 2 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersPositiveImag_format1 ", testImag 
             stop 1
         end if
@@ -64,17 +65,18 @@ contains
 
         character(len = 256) :: testString
         real(kind = 8) :: testReal, testImag
+        integer :: error
 
         testString = "-4-2i"
 
-        call getNumbers(testString, testReal, testImag)
+        call getNumbers(testString, testReal, testImag, error)
 
-        if (testReal + 4 >= 1e-12) then
+        if (testReal + 4 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersNegativeImag_format1 ", testReal 
             stop 1
         end if
         
-        if (testImag + 2 >= 1e-12) then
+        if (testImag + 2 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersNegativeImag_format1 ", testImag 
             stop 1
         end if
@@ -85,17 +87,18 @@ contains
 
         character(len = 256) :: testString
         real(kind = 8) :: testReal, testImag
+        integer :: error
 
         testString = "4-2i"
 
-        call getNumbers(testString, testReal, testImag)
+        call getNumbers(testString, testReal, testImag, error)
 
-        if (testReal - 4 >= 1e-12) then
+        if (testReal - 4 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersPositiveReal_format1 ", testReal 
             stop 1
         end if
         
-        if (testImag + 2 >= 1e-12) then
+        if (testImag + 2 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersPositiveReal_format1 ", testImag 
             stop 1
         end if
@@ -106,17 +109,18 @@ contains
 
         character(len = 256) :: testString
         real(kind = 8) :: testReal, testImag
+        integer :: error
 
         testString = "-4+2i"
 
-        call getNumbers(testString, testReal, testImag)
+        call getNumbers(testString, testReal, testImag, error)
 
-        if (testReal + 4 >= 1e-12) then
+        if (testReal + 4 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersNegativeReal_format1 ", testReal 
             stop 1
         end if
         
-        if (testImag - 2 >= 1e-12) then
+        if (testImag - 2 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersNegativeReal_format1 ", testImag 
             stop 1
         end if
@@ -127,17 +131,18 @@ contains
 
         character(len = 256) :: testString
         real(kind = 8) :: testReal, testImag
+        integer :: error
 
         testString = "(-4,2)"
 
-        call getNumbers(testString, testReal, testImag)
+        call getNumbers(testString, testReal, testImag, error)
 
-        if (testReal - 4 >= 1e-12) then
+        if (testReal - 4 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersPositiveImag_format0 ", testReal 
             stop 1
         end if
         
-        if (testImag - 2 >= 1e-12) then
+        if (testImag - 2 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersPositiveImag_format0 ", testImag 
             stop 1
         end if
@@ -148,17 +153,18 @@ contains
 
         character(len = 256) :: testString
         real(kind = 8) :: testReal, testImag
+        integer :: error
 
         testString = "(4,-2)"
 
-        call getNumbers(testString, testReal, testImag)
+        call getNumbers(testString, testReal, testImag, error)
 
-        if (testReal - 4 >= 1e-12) then
+        if (testReal - 4 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersNegativeImag_format0 ", testReal 
             stop 1
         end if
         
-        if (testImag + 2 >= 1e-12) then
+        if (testImag + 2 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersNegativeImag_format0 ", testImag 
             stop 1
         end if
@@ -169,17 +175,18 @@ contains
 
         character(len = 256) :: testString
         real(kind = 8) :: testReal, testImag
+        integer :: error
 
         testString = "(4,2)"
 
-        call getNumbers(testString, testReal, testImag)
+        call getNumbers(testString, testReal, testImag, error)
 
-        if (testReal - 4 >= 1e-12) then
+        if (testReal - 4 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersPositiveReal_format0 ", testReal 
             stop 1
         end if
         
-        if (testImag - 2 >= 1e-12) then
+        if (testImag - 2 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersPositiveReal_format0 ", testImag 
             stop 1
         end if
@@ -190,17 +197,18 @@ contains
 
         character(len = 256) :: testString
         real(kind = 8) :: testReal, testImag
+        integer :: error
 
         testString = "(-4,-2)"
 
-        call getNumbers(testString, testReal, testImag)
+        call getNumbers(testString, testReal, testImag, error)
 
-        if (testReal + 4 >= 1e-12) then
+        if (testReal + 4 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersNegativeReal_format0 ", testReal 
             stop 1
         end if
         
-        if (testImag + 2 >= 1e-12) then
+        if (testImag + 2 >= 1e-12 .or. error /= 0) then
             print *, "FAIL: test_getNumbersNegativeReal_format0 ", testImag 
             stop 1
         end if
